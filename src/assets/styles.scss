@@ -1,0 +1,37 @@
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  position: relative;
+  font-weight: normal;
+}
+
+body {
+  margin: auto;
+  max-width: 1400px;
+  min-height: 100vh;
+  padding: 1rem;
+  color: var(--color-text);
+  background: var(--color-background);
+  transition: color 0.5s, background-color 0.5s;
+  line-height: 1.6;
+  font-family: sans-serif;
+  font-size: 15px;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1 {
+  font-size: 24px;
+  margin: 0;
+  font-weight: 400;
+
+  @include md {
+    font-size: 28px;
+  }
+
+  @include lg {
+    font-size: 34px;
+  }
+}

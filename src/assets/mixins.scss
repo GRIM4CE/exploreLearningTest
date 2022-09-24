@@ -1,0 +1,7 @@
+@mixin md {
+  @media (min-width: 500px) { @content; }
+}
+  
+@mixin lg {
+  @media (min-width: 1000px) { @content; }
+}
