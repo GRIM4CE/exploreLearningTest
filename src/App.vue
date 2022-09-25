@@ -39,6 +39,7 @@ const deselectIcons = () => {
     @end="deselectIcons()"
     @mouseup="deselectIcons()"
     @touchend="deselectIcons()"
+    delay="500"
   >
     <div v-for="icon in localIcons" :key="icon.id" :class="icon.elementState">
       <BIcon
