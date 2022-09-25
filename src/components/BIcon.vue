@@ -19,16 +19,19 @@ defineProps<BIconProps>();
 
 <style lang="scss" scoped>
 .icon-container {
+  user-select: none;
   display: grid;
   justify-items: center;
 
   &.selected {
+    color: #8d8dff;
     .icon-image-wrapper {
       outline: 1px solid #8d8dff;
     }
   }
 
   &.drag {
+    color: #5050f7;
     .icon-image-wrapper {
       outline: 2px solid #5050f7;
       cursor: move;
