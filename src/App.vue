@@ -38,20 +38,22 @@ const deselectIcons = () => {
   <Draggable
     class="wrapper"
     :list="localIcons"
+    :options="{ handle: '.drag' }"
     @move="checkDrag"
     @change="deselectIcons()"
     @mouseup="deselectIcons()"
     @touchend="deselectIcons()"
   >
-    <template v-for="icon in localIcons" :key="icon.id">
-      <BIcon
+    <div v-for="icon in localIcons" :key="icon.id">
+      {{ icon.label }}
+      <!-- <BIcon
         :icon="icon"
         :class="icon.elementState"
         :draggable="icon.draggable"
         @mousedown="iconSelected($event, icon.id)"
         @touchstart="iconSelected($event, icon.id)"
-      />
-    </template>
+      /> -->
+    </div>
   </Draggable>
 </template>
 
