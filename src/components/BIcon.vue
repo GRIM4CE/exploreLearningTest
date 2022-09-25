@@ -25,7 +25,7 @@ defineProps<BIconProps>();
 
 <style lang="scss" scoped>
 .icon-container {
-  user-select: none;
+  @extend %prevent-user-select;
   display: grid;
   justify-items: center;
 
