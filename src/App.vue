@@ -65,6 +65,7 @@ const drop = (event: DragEvent, droppedIconId: string) => {
         @mousedown="iconSelected($event, icon.id)"
         @touchstart="iconSelected($event, icon.id)"
         @drop="drop($event, icon.id)"
+        @touchmove="drop($event, icon.id)"
         :class="icon.elementState"
       />
     </template>
