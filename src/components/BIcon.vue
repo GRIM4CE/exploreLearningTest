@@ -9,24 +9,42 @@ defineProps<BIconProps>();
 </script>
 
 <template>
-  <article class="app" :draggable="true">
-    <span
-      :class="`app-icon-wrapper ${icon.draggable ? 'draggable' : ''}`"
-      :id="icon.id"
-    >
-      <img :src="icon.img" :alt="icon.label" width="80" height="80" />
+  <article class="icon-container">
+    <span class="icon-image-wrapper" :id="icon.id">
+      <img
+        :src="icon.img"
+        :alt="icon.label"
+        width="80"
+        height="80"
+        draggable="false"
+      />
     </span>
-    <label class="app-label" :for="icon.id">{{ icon.label }}</label>
+    <label class="icon-label" :for="icon.id">{{ icon.label }}</label>
   </article>
 </template>
 
 <style lang="scss" scoped>
-.app {
+.icon-container {
+  user-select: none;
   display: grid;
   justify-items: center;
+
+  &.selected {
+    .icon-image-wrapper {
+      outline: 1px solid #8d8dff;
+    }
+  }
+
+  &.drag {
+    .icon-image-wrapper {
+      outline: 2px solid #5050f7;
+      cursor: move;
+      opacity: 50%;
+    }
+  }
 }
 
-.app-icon-wrapper {
+.icon-image-wrapper {
   height: 80px;
   max-width: 80px;
   border-radius: 4px;
@@ -45,7 +63,7 @@ defineProps<BIconProps>();
   }
 }
 
-.app-label {
+.icon-label {
   margin-top: 1rem;
   font-size: 12px;
 }

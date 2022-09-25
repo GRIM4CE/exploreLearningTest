@@ -1,17 +1,49 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { reactive, ref } from "vue";
 import BIcon from "./components/BIcon.vue";
 import icons from "./assets/icons";
 
-const localIcons = ref(icons);
-const apps = ref([]);
+const localIcons = reactive(icons);
+const dragged = ref<string | null>(null);
 
-const initDragEvent = (id: string, index: number) => {
-  const element = apps.value[index];
-  const activeIconIndex = localIcons.value.findIndex((icon) => icon.id === id);
-  if (!activeIconIndex) return;
-  localIcons.value[activeIconIndex].draggable = true;
-  console.log(localIcons.value);
+const getIconIndex = (id: string) =>
+  localIcons.findIndex((icon) => icon.id === id);
+
+const reorderLocalIcons = (draggedIconId: string, droppedIconId: string) => {
+  const draggedIconIndex = getIconIndex(draggedIconId);
+  const droppedIconIndex = getIconIndex(droppedIconId);
+  const draggedIcon = localIcons.splice(draggedIconIndex, 1)[0];
+  draggedIcon.draggable = false;
+  localIcons.splice(droppedIconIndex, 0, draggedIcon);
+};
+
+const iconSelected = (event: MouseEvent, id: string) => {
+  const icon = localIcons[getIconIndex(id)];
+  icon.elementState = "selected";
+  setTimeout(() => {
+    if (!event.target || icon.elementState === "") return;
+    icon.elementState = "drag";
+    icon.draggable = true;
+    dragged.value = id;
+  }, 500);
+};
+
+const deselectIcons = () => {
+  dragged.value = null;
+  localIcons.forEach((icon) => {
+    icon.elementState = "";
+    icon.draggable = false;
+  });
+};
+
+const drop = (event: DragEvent, droppedIconId: string) => {
+  const draggedIconId = dragged.value;
+  if (!draggedIconId) return;
+  const draggedIconIndex = getIconIndex(draggedIconId);
+  if (draggedIconIndex === -1 || !localIcons[draggedIconIndex].draggable)
+    return;
+  reorderLocalIcons(draggedIconId, droppedIconId);
+  deselectIcons();
 };
 </script>
 
@@ -19,9 +51,20 @@ const initDragEvent = (id: string, index: number) => {
   <header class="header">
     <h1>Explore Learning Test</h1>
   </header>
-  <main class="wrapper">
-    <template v-for="icon in icons" :key="icon.id">
-      <BIcon :icon="icon" />
+  <main
+    ref="draggableContainer"
+    class="wrapper"
+    @dragover="$event.preventDefault()"
+    @mouseup="deselectIcons()"
+  >
+    <template v-for="icon in localIcons" :key="icon.id">
+      <BIcon
+        :icon="icon"
+        :draggable="icon.draggable"
+        @mousedown="iconSelected($event, icon.id)"
+        @drop="drop($event, icon.id)"
+        :class="icon.elementState"
+      />
     </template>
   </main>
 </template>
