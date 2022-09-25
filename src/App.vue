@@ -6,8 +6,28 @@ import icons from "./assets/icons";
 
 const localIcons = reactive(icons);
 
-const drop = (event) => {
+const getIconIndex = (id: string) =>
+  localIcons.findIndex((icon) => icon.id === id);
+
+const iconSelected = (event: MouseEvent | TouchEvent, id: string) => {
+  const icon = localIcons[getIconIndex(id)];
+  icon.elementState = "selected";
+  setTimeout(() => {
+    if (!event.target || icon.elementState === "") return;
+    icon.elementState = "drag";
+    icon.draggable = true;
+  }, 500);
+};
+
+const checkDrag = (event) => {
   console.log(event);
+};
+
+const deselectIcons = () => {
+  localIcons.forEach((icon) => {
+    icon.elementState = "";
+    icon.draggable = false;
+  });
 };
 </script>
 
@@ -15,9 +35,22 @@ const drop = (event) => {
   <header class="header">
     <h1>Explore Learning Test</h1>
   </header>
-  <Draggable class="wrapper" :list="localIcons" @change="drop">
+  <Draggable
+    class="wrapper"
+    :list="localIcons"
+    @move="checkDrag"
+    @change="deselectIcons()"
+    @mouseup="deselectIcons()"
+    @touchend="deselectIcons()"
+  >
     <template v-for="icon in localIcons" :key="icon.id">
-      <BIcon :icon="icon" :class="icon.elementState" />
+      <BIcon
+        :icon="icon"
+        :class="icon.elementState"
+        :draggable="icon.draggable"
+        @mousedown="iconSelected($event, icon.id)"
+        @touchstart="iconSelected($event, icon.id)"
+      />
     </template>
   </Draggable>
 </template>
