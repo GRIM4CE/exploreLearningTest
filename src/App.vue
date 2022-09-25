@@ -13,8 +13,6 @@ const iconSelected = (event: MouseEvent | TouchEvent, id: string) => {
   const icon = localIcons[getIconIndex(id)];
   icon.elementState = "selected";
   setTimeout(() => {
-    console.log("hi");
-    if (!event.target || icon.elementState === "") return;
     icon.elementState = "drag";
   }, 500);
 };

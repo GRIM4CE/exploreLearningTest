@@ -38,6 +38,7 @@ defineProps<BIconProps>();
 }
 
 .icon-image-wrapper {
+  @extend %prevent-user-select;
   height: 80px;
   max-width: 80px;
   border-radius: 4px;
