@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { reactive } from "vue";
+import { reactive, ref } from "vue";
 import { VueDraggableNext as Draggable } from "vue-draggable-next";
 import BIcon from "./components/BIcon.vue";
 import icons from "./assets/icons";
 
 const localIcons = reactive(icons);
+const draggable = ref(false);
 
 const getIconIndex = (id: string) =>
   localIcons.findIndex((icon) => icon.id === id);
@@ -15,15 +16,12 @@ const iconSelected = (event: MouseEvent | TouchEvent, id: string) => {
   setTimeout(() => {
     if (!event.target || icon.elementState === "") return;
     icon.elementState = "drag";
-    icon.draggable = true;
-  }, 500);
-};
-
-const checkDrag = (event) => {
-  console.log(event);
+    draggable.value = true;
+  }, 10000);
 };
 
 const deselectIcons = () => {
+  draggable.value = false;
   localIcons.forEach((icon) => {
     icon.elementState = "";
     icon.draggable = false;
@@ -38,13 +36,17 @@ const deselectIcons = () => {
   <Draggable
     class="wrapper"
     :list="localIcons"
-    :options="{ handle: '.drag' }"
-    @move="checkDrag"
+    :options="{ disabled: true }"
     @change="deselectIcons()"
     @mouseup="deselectIcons()"
     @touchend="deselectIcons()"
   >
-    <div v-for="icon in localIcons" :key="icon.id" :class="icon.elementState">
+    <div
+      v-for="icon in localIcons"
+      :key="icon.id"
+      :class="icon.elementState"
+      @mousedown="iconSelected($event, icon.id)"
+    >
       {{ icon.label }}
       <!-- <BIcon
         :icon="icon"
