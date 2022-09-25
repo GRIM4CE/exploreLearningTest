@@ -11,13 +11,7 @@ defineProps<BIconProps>();
 <template>
   <article class="icon-container">
     <span class="icon-image-wrapper" :id="icon.id">
-      <img
-        :src="icon.img"
-        :alt="icon.label"
-        width="80"
-        height="80"
-        draggable="false"
-      />
+      <img :src="icon.img" :alt="icon.label" width="80" height="80" />
     </span>
     <label class="icon-label" :for="icon.id">{{ icon.label }}</label>
   </article>

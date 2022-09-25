@@ -5,7 +5,6 @@ import BIcon from "./components/BIcon.vue";
 import icons from "./assets/icons";
 
 const localIcons = reactive(icons);
-const draggable = ref(false);
 
 const getIconIndex = (id: string) =>
   localIcons.findIndex((icon) => icon.id === id);
@@ -17,12 +16,10 @@ const iconSelected = (event: MouseEvent | TouchEvent, id: string) => {
     console.log("hi");
     if (!event.target || icon.elementState === "") return;
     icon.elementState = "drag";
-    draggable.value = true;
   }, 500);
 };
 
 const deselectIcons = () => {
-  draggable.value = false;
   localIcons.forEach((icon) => {
     icon.elementState = "";
   });
@@ -41,7 +38,7 @@ const deselectIcons = () => {
     @touchend="deselectIcons()"
     delay="500"
   >
-    <div v-for="icon in localIcons" :key="icon.id" :class="icon.elementState">
+    <div v-for="icon in localIcons" :key="icon.id">
       <BIcon
         @mousedown="iconSelected($event, icon.id)"
         @touchstart="iconSelected($event, icon.id)"

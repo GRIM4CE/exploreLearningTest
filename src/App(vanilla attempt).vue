@@ -1,4 +1,5 @@
 <script setup lang="ts">
+// @ts-nocheck
 import { reactive, ref } from "vue";
 import BIcon from "./components/BIcon.vue";
 import icons from "./assets/icons";
