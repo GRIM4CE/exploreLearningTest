@@ -14,17 +14,17 @@ const iconSelected = (event: MouseEvent | TouchEvent, id: string) => {
   const icon = localIcons[getIconIndex(id)];
   icon.elementState = "selected";
   setTimeout(() => {
+    console.log("hi");
     if (!event.target || icon.elementState === "") return;
     icon.elementState = "drag";
     draggable.value = true;
-  }, 10000);
+  }, 500);
 };
 
 const deselectIcons = () => {
   draggable.value = false;
   localIcons.forEach((icon) => {
     icon.elementState = "";
-    icon.draggable = false;
   });
 };
 </script>
@@ -36,25 +36,17 @@ const deselectIcons = () => {
   <Draggable
     class="wrapper"
     :list="localIcons"
-    :options="{ disabled: true }"
-    @change="deselectIcons()"
+    @end="deselectIcons()"
     @mouseup="deselectIcons()"
     @touchend="deselectIcons()"
   >
-    <div
-      v-for="icon in localIcons"
-      :key="icon.id"
-      :class="icon.elementState"
-      @mousedown="iconSelected($event, icon.id)"
-    >
-      {{ icon.label }}
-      <!-- <BIcon
-        :icon="icon"
-        :class="icon.elementState"
-        :draggable="icon.draggable"
+    <div v-for="icon in localIcons" :key="icon.id" :class="icon.elementState">
+      <BIcon
         @mousedown="iconSelected($event, icon.id)"
         @touchstart="iconSelected($event, icon.id)"
-      /> -->
+        :icon="icon"
+        :class="icon.elementState"
+      />
     </div>
   </Draggable>
 </template>
