@@ -44,7 +44,7 @@ const deselectIcons = () => {
     @mouseup="deselectIcons()"
     @touchend="deselectIcons()"
   >
-    <div v-for="icon in localIcons" :key="icon.id">
+    <div v-for="icon in localIcons" :key="icon.id" :class="icon.elementState">
       {{ icon.label }}
       <!-- <BIcon
         :icon="icon"
