@@ -56,12 +56,14 @@ const drop = (event: DragEvent, droppedIconId: string) => {
     class="wrapper"
     @dragover="$event.preventDefault()"
     @mouseup="deselectIcons()"
+    @touchend="deselectIcons()"
   >
     <template v-for="icon in localIcons" :key="icon.id">
       <BIcon
         :icon="icon"
         :draggable="icon.draggable"
         @mousedown="iconSelected($event, icon.id)"
+        @touchstart="iconSelected($event, icon.id)"
         @drop="drop($event, icon.id)"
         :class="icon.elementState"
       />
